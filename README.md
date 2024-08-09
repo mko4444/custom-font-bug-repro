@@ -1,6 +1,3 @@
-```
-npm install
-npm run dev
-```
+custom fonts work in the frog constructor but not in the image handler
 
-Head to http://localhost:3000/api
+go to `https://custom-font-bug-repro.vercel.app/api` or insert in frame validator to see what i mean
