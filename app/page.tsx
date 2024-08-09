@@ -13,5 +13,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  return <main>test</main>;
+  return <main>{process.env.PROD_URL}</main>;
 }
