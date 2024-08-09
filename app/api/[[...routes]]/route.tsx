@@ -6,71 +6,74 @@ import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { Frog } from "frog";
 
-const { Box, Heading, Text, Image, Spacer, Columns, Column, vars } =
-  createSystem();
+const { Box, Text } = createSystem();
 
-export const app = new Frog({ title: "Frog Frame", basePath: "/api" });
+const app = new Frog({
+  assetsPath: "/",
+  basePath: "/api",
+  title: "Frog",
+  imageOptions: {
+    fonts: [
+      {
+        name: "Inter",
+        weight: 400,
+        source: "google",
+      },
+      {
+        name: "Londrina Solid",
+        weight: 400,
+        source: "google",
+      },
+      // {
+      //   name: "Lora",
+      //   weight: 700,
+      //   style: "italic",
+      //   source: "google",
+      // },
+    ],
+  },
+});
 
 app.frame("/", (c) => {
-  console.log("hello");
   return c.res({
-    image: (
-      <div style={{ color: "white", display: "flex", fontSize: 60 }}>
-        Select your fruit!
-      </div>
-    ),
+    headers: {
+      "Cache-Control": "max-age=0",
+      "cache-control": "max-age=0",
+    },
+    image: "/img-test",
     intents: [],
   });
 });
 
-// const app = new Frog({
-//   assetsPath: "/",
-//   basePath: "/api",
-//   title: "Frog",
-//   verify: false,
-//   imageOptions: {
-//     fonts: [
-//       {
-//         name: "Londrina Solid",
-//         weight: 400,
-//         source: "google",
-//       },
-//       {
-//         name: "Lora",
-//         weight: 700,
-//         style: "italic",
-//         source: "google",
-//       },
-//     ],
-//   },
-// });
+app.image("/img-test", (c) => {
+  return c.res({
+    imageOptions: {
+      fonts: [
+        {
+          name: "Lora",
+          weight: 700,
+          style: "italic",
+          source: "google",
+        },
+      ],
+    },
+    image: (
+      <Box>
+        <Text font={{ custom: "Londrina Solid" }} size="24" weight="400">
+          This font should be Londrina.
+        </Text>
+        <Text font={{ custom: "Lora" }} size="24" weight="700" style="italic">
+          This font should be Lora but doesn't load properly.
+        </Text>
+        <Text font={{ custom: "Inter" }} size="24" weight="400">
+          This font should be Inter.
+        </Text>
+      </Box>
+    ),
+  });
+});
 
-// app.frame("/test", (c) => {
-//   console.log("hello");
-//   return c.res({
-//     image: "https://e7e8bf105142.ngrok.app/api/test",
-//     intents: [],
-//   });
-// });
-
-// app.image("/test", (c) => {
-//   console.log("goodbye");
-//   return c.res({
-//     /* ... */
-//     image: (
-//       <Box>
-//         <Text font={{ custom: "Londrina Solid" }} weight="400">
-//           This font should be Nouns
-//         </Text>
-//         <Text font={{ custom: "Lora" }} weight="700">
-//           This font should be Farcon
-//         </Text>
-//       </Box>
-//     ),
-//   });
-// });
-
-// devtools(app, { serveStatic });
+devtools(app, { serveStatic });
 
 export const GET = handle(app);
 export const POST = handle(app);

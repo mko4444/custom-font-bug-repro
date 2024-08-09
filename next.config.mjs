@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    VERCEL_URL: process.env.VERCEL_URL,
+    PROD_URL: process.env.PROD_URL,
   },
 };
 
